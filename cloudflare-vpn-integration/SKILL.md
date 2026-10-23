@@ -20,6 +20,7 @@ description: Интегрировать Cloudflare с OpenWrt, sing-box, 3x-ui, 
 - `Nginx Proxy Manager` выступает как origin reverse proxy, а не как Cloudflare feature.
 - `3x-ui` и `sing-box` нельзя автоматически считать совместимыми со standard Cloudflare Proxy на любом transport.
 - Если transport не является подтверждённым HTTP/HTTPS web path, сначала проверяй, не нужен ли `DNS only` или альтернативная Cloudflare product path.
+- `XHTTP` не следует описывать как гарантированно совместимый transport для standard Cloudflare Proxy: официальная документация Cloudflare подтверждает границы HTTP/HTTPS proxy, но не даёт отдельной гарантии для XHTTP. Не рекомендовать `Proxied` как готовую настройку XHTTP без документированного подтверждения для конкретной схемы.
 
 ## Рабочий процесс
 
@@ -34,6 +35,7 @@ description: Интегрировать Cloudflare с OpenWrt, sing-box, 3x-ui, 
 - Для `Nginx Proxy Manager` описывай Cloudflare как edge/front door, а Nginx Proxy Manager как origin reverse proxy.
 - Для `OpenWrt` и homelab сначала решай, нужен ли public hostname или private access.
 - Для `3x-ui` и `sing-box` не выдавай blanket-утверждение, что любой inbound/transport можно пустить через orange cloud.
+- Если hostname ведёт на другой CDN или proxy provider, не добавляй перед ним Cloudflare Proxy без явной совместимости upstream: возможны TLS-ошибки, routing loop или отказ соединения. Для такого alias по умолчанию сохранять `DNS only`.
 - Для admin panel и self-hosted dashboard чаще сначала проверяй Tunnel + Access, а не публичный direct exposure.
 
 ## Что не делать
